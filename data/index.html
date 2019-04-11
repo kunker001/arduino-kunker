@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+	<meta name="description" content="switch,honeySwitch,switch button">
+	<title>WIFI SWITCH</title>
+	<script src="lib/jquery-1.12.1.min.js"></script>
+	<link rel="stylesheet" href="lib/honeySwitch.css">
+	<link rel="stylesheet" href="lib/mdui.min.css">
+	<script src="lib/honeySwitch.js"></script>
+	<style>
+		html {
+			margin: 0;
+			padding: 0;
+			background: #d9d9d9;
+		}
+
+		body {
+			margin: 0;
+			padding: 0;
+			word-break: break-all;
+			word-wrap: break-word;
+			overflow-x: hidden;
+		}
+
+		.page {
+			width: 800px;
+			margin: 0 auto;
+			padding: 15px;
+			background: white;
+		}
+
+		h1,
+		h2 {
+			margin: 0;
+			text-align: center;
+			margin-bottom: 15px;
+		}
+
+		.common-row {
+			width: 100%;
+			height: 50px;
+			border-bottom: 1px solid lightgrey;
+		}
+
+		.cell-left,
+		.cell-right {
+			width: 49%;
+			height: 100%;
+			float: left;
+			line-height: 50px;
+		}
+
+		.cell-right {
+			text-align: right;
+		}
+
+		.switch-on,
+		.switch-off {
+			margin-top: 9px;
+		}
+
+		.showBox {
+			width: 100%;
+			border: 1px solid lightgrey;
+			border-radius: 6px;
+			font-size: 16px;
+			background: #CCFF99;
+		}
+
+		.paragraph {
+			white-space: pre-wrap;
+			margin: 15px 0;
+			word-break: break-all;
+			word-wrap: break-word;
+		}
+
+		textarea {
+			width: 80%;
+			border: none;
+			outline: none;
+			resize: none;
+			font-size: 16px;
+			height: auto;
+			overflow: visible;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		@media screen and (max-width: 800px) {
+			.page {
+				width: 100%;
+				box-sizing: border-box;
+			}
+		}
+	</style>
+	<script>
+		//honeySwitch.themeColor="lightblue";
+		$(function () {
+			switchEvent("#gpio02", function () {
+				$.post("/gpio02", { state: "SET" });
+			}, function () {
+				$.post("/gpio02", { state: "RESET" });
+			});
+			switchEvent("#gpio16", function () {
+				$.post("/gpio16", { state: "SET" });
+			}, function () {
+				$.post("/gpio16", { state: "RESET" });
+			});
+			switchEvent("#gpio14", function () {
+				$.post("/gpio14", { state: "SET" });
+			}, function () {
+				$.post("/gpio14", { state: "RESET" });
+			});
+			switchEvent("#gpio12", function () {
+				$.post("/gpio12", { state: "SET" });
+			}, function () {
+				$.post("/gpio12", { state: "RESET" });
+			});
+			switchEvent("#gpio13", function () {
+				$.post("/gpio13", { state: "SET" });
+			}, function () {
+				$.post("/gpio13", { state: "RESET" });
+			});
+			switchEvent("#gpio09", function () {
+				$.post("/gpio09", { state: "SET" });
+			}, function () {
+				$.post("/gpio09", { state: "RESET" });
+			});
+			$(document).ready(function () {
+				
+				$.getJSON('/state', null, function (data) {
+					$("#state").html(data.state == 1 ? "已连接":"未连接");
+					$("#ssid").html(data.state == 1 ? data.ssid:"");
+					$("#ip").html(data.state == 1 ? data.ip:"");
+					$("#rssi").html(data.state == 1 ? data.rssi:"");
+				})
+			})
+		});
+	</script>
+</head>
+
+<body>
+	<div class="page">
+		<h2>设置</h2>
+		<div class="">
+			<div class="mdui-chip">
+				<span class="mdui-chip-icon">WIFI 状态</span>
+				<span class="mdui-chip-title" id="state"></span>
+			</div>
+			<div class="mdui-chip">
+				<span class="mdui-chip-icon">WIFI SSID</span>
+				<span class="mdui-chip-title" id="ssid"></span>
+			</div>
+			<div class="mdui-chip">
+				<span class="mdui-chip-icon">WIFI RSSI</span>
+				<span class="mdui-chip-title" id="rssi"></span>
+			</div>
+			<div class="mdui-chip">
+				<span class="mdui-chip-icon">IP</span>
+				<span class="mdui-chip-title" id="ip"></span>
+			</div>
+		</div>
+		<div class="common-row">
+			<div class="cell-left">GPIO02</div>
+			<div class="cell-right"><span class="switch-off" themeColor="gray" id="gpio02"></span></div>
+		</div>
+
+		<div class="common-row">
+			<div class="cell-left">GPIO16</div>
+			<div class="cell-right"><span class="switch-off" themeColor="red" id="gpio16"></span></div>
+		</div>
+
+		<div class="common-row">
+			<div class="cell-left">GPIO14</div>
+			<div class="cell-right"><span class="switch-off" themeColor="green" id="gpio14"></span></div>
+		</div>
+
+		<div class="common-row">
+			<div class="cell-left">GPIO12</div>
+			<div class="cell-right"><span class="switch-off" themeColor="cyan" id="gpio12"></span></div>
+		</div>
+
+		<div class="common-row">
+			<div class="cell-left">GPIO13</div>
+			<div class="cell-right"><span class="switch-off" themeColor="gold" id="gpio13"></span></div>
+		</div>
+
+		<div class="common-row">
+			<div class="cell-left">GPIO09</div>
+			<div class="cell-right"><span class="switch-off" themeColor="purple" id="gpio09"></span></div>
+		</div>
+		<dl>
+			<dt>Duan的WiFi开关示例。</dt>
+			<dd>
+				<button class="mdui-btn mdui-color-theme-accent mdui-ripple"
+					onclick="javascript:location.href='ws.html'">搜索wifi</button>
+			</dd>
+		</dl>
+	</div>
+	</div>
+	</div>
+</body>
+
+</html>

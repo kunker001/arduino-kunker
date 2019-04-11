@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="switch,honeySwitch,switch button">
+    <title>WIFI LIST</title>
+    <script src="lib/jquery-1.12.1.min.js"></script>
+    <link rel="stylesheet" href="lib/mdui.min.css">
+
+    <style>
+
+    </style>
+    <script>
+        $(document).ready(function () {
+
+            $.getJSON('/wifis', null, function (data) {
+                var list = data.data;
+                var str = "";
+                for (var i = 0; i < list.length; i++) {
+                    str += "<li class='mdui-list-item mdui-ripple'>";
+                    //str += "<span class='index'>"+list[i].index+"</span>";
+                    str += "<span class='ssid'>" + list[i].ssid + "</span>";
+                    //str += "<span class='rssi'>"+list[i].rssi+"</span>";
+                    str += "</li>";
+                }
+                $("#wlist").html(str);
+                $("#title").html("一共搜索到" + data.size + "个热点！");
+                $("ul#wlist").on("click", "li", function () {      //只需要找到你点击的是哪个ul里面的就行
+                    var ssid = $("#ssid")
+                    ssid.val($(this).text())
+                    //alert($(this).text());
+                });
+            })
+        })
+        function con(){
+            //alert($('#ssid').value+$('#pwd').value)
+            console.log($('#ssid').val(),$('#pwd').val())
+            $.post("/con", { ssid: $('#ssid').val(), pwd: $('#pwd').val() } );
+            window.location.href = "/" ;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="page">
+        <h4 id="title"></h4>
+        <h5>注意，考虑性能问题，此wifi列表只支持显示10个，如有需要连接其他wifi，请手动输入！</h5>
+        <ul id="wlist">
+
+        </ul>
+        
+        <div class="mdui-textfield">
+                <input class="mdui-textfield-input" id="ssid" type="text" placeholder="Wifi SSID"/>
+                <br/>
+                <input class="mdui-textfield-input" id="pwd" type="text" placeholder="无密码请保持为空！"/>
+        </div>
+        <button class="mdui-btn mdui-color-theme-accent mdui-ripple"
+            onclick="con()">连接wifi</button>
+        <button class="mdui-btn mdui-color-theme-accent mdui-ripple"
+            onclick="javascript:location.href='/'">返回主页</button>
+        <br/>
+</body>
+
+</html>
