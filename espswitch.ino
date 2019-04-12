@@ -10,8 +10,8 @@ const char ssid[] = "ucqy"; //SSID
 const char pass[] = ""; //Password
 const char* host = "iot";
 
-const char *ap_ssid = "ESPap";
-const char *ap_password = "12345678";
+const char *ap_ssid = "E86-test";
+const char *ap_password = "";
 
 ESP8266WebServer server(80);
 
@@ -94,12 +94,12 @@ void setup( ) {
   Serial.println("");
   //  Serial.print("Connected! IP address: ");
   //  Serial.println(WiFi.localIP());
-
-  pinMode(2, OUTPUT);
-  pinMode(16, OUTPUT);
-  pinMode(14, OUTPUT);
-  pinMode(12, OUTPUT);
-  pinMode(13, OUTPUT);
+//
+//  pinMode(2, OUTPUT);
+//  pinMode(16, OUTPUT);
+//  pinMode(14, OUTPUT);
+//  pinMode(12, OUTPUT);
+//  pinMode(13, OUTPUT);
 
   server.on ("/gpio02", []() {
     String state = server.arg("state");
